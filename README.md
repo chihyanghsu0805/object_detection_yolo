@@ -2,7 +2,8 @@
 This repository re-implements yolo3 objection detection.
 
 # You Only Look Once
-YOLO is a popular object detection algorithm known for its speed and accuracy. https://pjreddie.com/darknet/yolo/
+YOLO is a popular object detection algorithm known for its speed and accuracy./
+https://pjreddie.com/darknet/yolo/ /
 It obsoletes sliding window approaches by finding the bounding box in a regression problem.
 
 Currently, there are three versions.
