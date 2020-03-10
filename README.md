@@ -1,5 +1,5 @@
 # object_detection_yolo
-This repository re-implements yolo3 objection detection.
+This repository re-implements YOLOv3 objection detection.
 
 # You Only Look Once
 YOLO is a popular object detection algorithm known for its speed and accuracy.\
