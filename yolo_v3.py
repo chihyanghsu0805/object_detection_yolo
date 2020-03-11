@@ -7,6 +7,9 @@ import tensorflow as tf
 from nms import cpu_nms, gpu_nms
 from tensorflow.keras.layers import Add, BatchNormalization, Concatenate, Conv2D, LeakyReLU, UpSampling2D, ZeroPadding2D
 
+def yolo_loss(y_true, y_pred):
+
+
 def process_boxes(xy, wh, ratio, grid_size, rescaled_anchors):
   xy = process_xy(xy, ratio, grid_size)
   wh = process_wh(wh, ratio, rescaled_anchors)
@@ -193,3 +196,9 @@ class YoloV3():
     boxes, scores, labels = cpu_nms(boxes, scores, self.num_classes, max_boxes=200, score_thresh=0.3, iou_thresh=0.5)
 
     return boxes, scores, labels
+  
+  def compile(self):
+    options = {}
+    options['optimizer'] = 'Adam'
+    options['loss'] = yolo_loss
+    self.model.compile(**options)

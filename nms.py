@@ -18,7 +18,7 @@ def py_nms(boxes, scores, max_boxes=50, iou_thresh=0.5):
   x2 = boxes[:, 2]
   y2 = boxes[:, 3]
 
-  areas = (x2 - x1) * (y2 - y1)
+  areas = (x2-x1)*(y2-y1)
   order = scores.argsort()[::-1]
 
   keep = []
@@ -32,11 +32,11 @@ def py_nms(boxes, scores, max_boxes=50, iou_thresh=0.5):
 
     w = np.maximum(0.0, xx2 - xx1 + 1)
     h = np.maximum(0.0, yy2 - yy1 + 1)
-    inter = w * h
-    ovr = inter / (areas[i] + areas[order[1:]] - inter)
+    intersection = w * h
+    union = intersection/(areas[i]+areas[order[1:]]-intersection)
 
-    inds = np.where(ovr <= iou_thresh)[0]
-    order = order[inds + 1]
+    inds = np.where(union <= iou_thresh)[0]
+    order = order[inds+1]
 
   return keep[:max_boxes]
 
@@ -64,6 +64,7 @@ def cpu_nms(boxes, scores, num_classes, max_boxes=50, score_thresh=0.5, iou_thre
     picked_boxes.append(filter_boxes[indices])
     picked_score.append(filter_scores[indices])
     picked_label.append(np.ones(len(indices), dtype='int32')*i)
+
   if len(picked_boxes) == 0:
     return None, None, None
 
