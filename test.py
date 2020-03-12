@@ -6,6 +6,8 @@ import cv2
 from utils_image import *
 from utils_yolo import *
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 from yolo_v3 import YoloV3
 
@@ -57,8 +59,12 @@ if __name__ == '__main__':
   
   pred_image = draw_boxes(raw_image, classes, pred_boxes, pred_scores, pred_labels, color_table)
 
-  cv2.imshow('Detection result', pred_image)
-  cv2.imwrite('detection_result.jpg', pred_image)
-  cv2.waitKey(0)
+  #cv2.imshow('Detection result', pred_image)
+  #cv2.imwrite('detection_result.jpg', pred_image)
+  #cv2.waitKey(0)
+
+  plt.imshow(pred_image)
+  plt.savefig('results.jpg')
+  plt.close()
 
 
