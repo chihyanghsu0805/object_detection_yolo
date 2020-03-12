@@ -7,7 +7,7 @@ import tensorflow as tf
 from nms import cpu_nms, gpu_nms
 from tensorflow.keras.layers import Add, BatchNormalization, Concatenate, Conv2D, LeakyReLU, UpSampling2D, ZeroPadding2D
 
-def yolo_loss(y_true, y_pred):
+#def yolo_loss(y_true, y_pred):
 
 
 def process_boxes(xy, wh, ratio, grid_size, rescaled_anchors):

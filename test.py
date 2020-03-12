@@ -4,32 +4,10 @@ from __future__ import print_function
 import argparse
 import cv2
 from utils_image import *
+from utils_yolo import *
 import numpy as np
-import random
 
 from yolo_v3 import YoloV3
-
-def get_color_table(class_num, seed=2):
-    random.seed(seed)
-    color_table = {}
-    for i in range(class_num):
-        color_table[i] = [random.randint(0, 255) for _ in range(3)]
-    return color_table
-
-def get_classes(class_name_path):
-  names = {}
-  with open(class_name_path, 'r') as data:
-    for ID, name in enumerate(data):
-      names[ID] = name.strip('\n')
-  return names
-
-def get_anchors(anchor_path):
-  ''' 
-  parse anchors.
-  returned data: shape [N, 2], dtype float32
-  '''
-  anchors = np.reshape(np.asarray(open(anchor_path, 'r').read().split(','), np.float32), [-1, 2])
-  return anchors
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
@@ -63,6 +41,8 @@ if __name__ == '__main__':
  
   model.load_weights(args.weights)
   pred_boxes, pred_scores, pred_labels = model.predict(image)
+
+  # TODO: Save Outcome
   print(pred_boxes)
   pred_boxes = scale_coordinates(pred_boxes, args.letterbox_resize, dw, dh, ratio)
 
@@ -75,10 +55,10 @@ if __name__ == '__main__':
   print("Box Labels:")
   print(pred_labels)
   
-  image = draw_boxes(image, classes, pred_boxes, pred_scores, pred_labels, color_table)
+  pred_image = draw_boxes(raw_image, classes, pred_boxes, pred_scores, pred_labels, color_table)
 
-  cv2.imshow('Detection result', image)
-  cv2.imwrite('detection_result.jpg', image)
+  cv2.imshow('Detection result', pred_image)
+  cv2.imwrite('detection_result.jpg', pred_image)
   cv2.waitKey(0)
 
 

@@ -2,6 +2,14 @@ from __future__ import absolute_import, print_function
 
 import cv2
 import numpy as np
+import random
+
+def get_color_table(class_num, seed=2):
+    random.seed(seed)
+    color_table = {}
+    for i in range(class_num):
+        color_table[i] = [random.randint(0, 255) for _ in range(3)]
+    return color_table
 
 def draw_boxes(image, classes, boxes, scores, labels, color_table):
   for box,score,label in zip(boxes, scores, labels):
