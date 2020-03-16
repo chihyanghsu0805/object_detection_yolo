@@ -17,9 +17,14 @@ def draw_boxes(image, classes, boxes, scores, labels, color_table):
 
   return image
 
-def scale_coordinates(boxes, bool_letterbox_resize, dw, dh, ratio):
-  boxes[:, [0,2]] = (boxes[:, [0,2]]-dw)/ratio[1]
-  boxes[:, [1,3]] = (boxes[:, [1,3]]-dh)/ratio[0]
+def scale_boxes(boxes, bool_letterbox_resize, dw, dh, ratio, input_type):
+  if input_type == 'prediction':
+    boxes[:, [0,2]] = (boxes[:,[0,2]]-dw)/ratio[1]
+    boxes[:, [1,3]] = (boxes[:,[1,3]]-dh)/ratio[0]
+  
+  if input_type == 'original':
+    boxes[:, [0,2]] = boxes[:,[0,2]]*ratio[1]+dw
+    boxes[:, [1,3]] = boxes[:,[1,3]]*ratio[0]+dh 
   #if bool_letterbox_resize:
   #  boxes_[:, [0, 2]] = (boxes_[:, [0, 2]] - dw) / resize_ratio
   #  boxes_[:, [1, 3]] = (boxes_[:, [1, 3]] - dh) / resize_ratio
@@ -47,7 +52,7 @@ def resize_image(image, bool_letterbox_resize, new_size):
     resize_ratio = [x/y for x,y in zip(new_size, old_size)]
 
   return image, dw, dh, resize_ratio
-  
+      
 def plot_one_box(image, coord, label=None, color=None, line_thickness=None):
   ''' 
   coord: [x_min, y_min, x_max, y_max] format coordinates.
